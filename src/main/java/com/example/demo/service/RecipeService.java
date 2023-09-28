@@ -17,7 +17,7 @@ public class RecipeService {
 	private RecipeRepository recipeRepository;
 	
 	public ResponseEntity<?> index() {
-		return new ResponseEntity<>(recipeRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<Iterable<Recipe>>(recipeRepository.findAll(), HttpStatus.OK);
 	}
 	
 	public ResponseEntity<?> store(Recipe recipe) {
