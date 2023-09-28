@@ -64,8 +64,6 @@ public class Recipe {
 
 	public void setIngredients(String ingredients) {
 		this.ingredients = ingredients;
-	}
-	
-	
+	}	
 	
 }
