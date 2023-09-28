@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -15,7 +16,7 @@ public class Ingredient {
 	@NotEmpty
 	private String name;
 	
-	@NotEmpty
+	@Min(value = 0)
 	private int amount;
 
 	public Long getId() {

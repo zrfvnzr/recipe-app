@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +27,13 @@ public class IngredientController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> store(Ingredient ingredient) {
+	public ResponseEntity<?> store(@RequestBody Ingredient ingredient) {
+		ingredient.setName(ingredient.getName().toLowerCase());
 		return this.ingredientService.store(ingredient);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable(value="id") Long id, Ingredient ingredient) {
+	public ResponseEntity<?> update(@PathVariable(value="id") Long id, @RequestBody Ingredient ingredient) {
 		return this.ingredientService.update(id, ingredient);
 	}
 	

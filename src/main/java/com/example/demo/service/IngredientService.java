@@ -26,13 +26,19 @@ public class IngredientService {
 	
 	public ResponseEntity<?> store(Ingredient ingredient) {
 		try {
-			return new ResponseEntity<Ingredient>(ingredientRepository.save(ingredient), HttpStatus.OK);
+			Optional<Ingredient> oldIngredient = ingredientRepository.findByName(ingredient.getName());
+			if (oldIngredient.isPresent()) {
+				oldIngredient.get().setAmount(oldIngredient.get().getAmount() + ingredient.getAmount());
+				return new ResponseEntity<Ingredient>(ingredientRepository.save(oldIngredient.get()), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Ingredient>(ingredientRepository.save(ingredient), HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	public ResponseEntity<?> update (Long id, Ingredient ingredient) {
+	public ResponseEntity<?> update(Long id, Ingredient ingredient) {
 		try {
 			Optional<Ingredient> oldIngredient = ingredientRepository.findById(id);
 			if (!oldIngredient.isPresent()) {
@@ -52,7 +58,8 @@ public class IngredientService {
 			if (!ingredient.isPresent()) {
 				throw new Exception("Invalid ingredient ID");
 			} else {
-				return new ResponseEntity<Optional<Ingredient>>(ingredientRepository.delete(id), HttpStatus.OK);
+				ingredientRepository.deleteById(id);
+				return new ResponseEntity<Optional<Ingredient>>(ingredient, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
